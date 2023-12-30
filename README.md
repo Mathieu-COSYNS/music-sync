@@ -5,7 +5,7 @@ Sync your downloaded music with your online platforms.
 ## Features
 
 - Download the likes of a SoundCloud user
-- Download a list of songs urls (saved in a `m3u` file) supported by [yl-dlp](https://github.com/yt-dlp/yt-dlp)
+- Download a list of songs urls (saved in a `m3u` file) supported by [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 
 ## Requirements
 
