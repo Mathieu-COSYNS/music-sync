@@ -2,7 +2,7 @@ import logging
 import os
 
 import yaml
-import xdg
+import xdg.BaseDirectory
 
 
 def _get_config_path(*resource, config_file='config.yaml', writable=False):
