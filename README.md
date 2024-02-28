@@ -9,7 +9,7 @@ Sync your downloaded music with your online platforms.
 
 ## Requirements
 
-[Python](https://www.python.org/) (version >= 3.10) and [pip](https://pip.pypa.io)
+[Python](https://www.python.org/) (version >= 3.10), [pip](https://pip.pypa.io) and [ffmpeg](https://www.ffmpeg.org)
 
 ## Installation
 
