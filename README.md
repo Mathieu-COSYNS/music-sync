@@ -29,7 +29,7 @@ pipenv install
 ## Run
 
 ```sh
-python3 cli.py
+pipenv run musicsync
 ```
 
 The first time you run the program a config file will be generated. By default
@@ -41,5 +41,5 @@ preferences (`~/.config/music_sync/config.yml` by default).
 ## Test
 
 ```sh
-python3 -m unittest discover
+pipenv run test
 ```
