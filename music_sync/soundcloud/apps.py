@@ -4,7 +4,7 @@ from music_sync.core.apps import App
 from music_sync.core.config import get_config_path
 from music_sync.core.download import ArchiveParser
 from music_sync.core.download import Downloader
-from music_sync.core.schema import ContextAware, GetContext, MetadataActionsSchema, PathField
+from music_sync.core.schema import ContextAware, MetadataActionsSchema, PathField
 from music_sync.soundcloud.api import list_liked_tracks
 
 
@@ -33,8 +33,11 @@ class SoundCloudApp(App):
         tracks = list_liked_tracks(self.config.username)
 
         if self.config.download_archive:
-            archived_ids = [id for provider, id in ArchiveParser(
+            try:
+                archived_ids = [id for provider, id in ArchiveParser(
                 self.config.download_archive).read_rows() if provider == 'soundcloud']
+            except FileNotFoundError:
+                archived_ids = []
 
         urls = [track['permalink_url']
                 for track in tracks if f"{track['id']}" not in archived_ids]
