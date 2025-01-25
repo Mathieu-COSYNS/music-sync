@@ -1,6 +1,0 @@
-yt-dlp
-requests
-pyxdg
-pyyaml
-colorlog
-marshmallow

@@ -11,9 +11,9 @@ Sync your downloaded music with your online platforms.
 ## Requirements
 
 - [Python](https://www.python.org/) (version >= 3.10) as a programming language.
-- [pipenv](https://pip.pypa.io) as a package and venv management tool. If you do
-  not have pipenv installed refer to [pipenv install
-  instruction](https://pipenv.pypa.io/en/latest/installation.html).
+- [uv](https://docs.astral.sh/uv/) as a package and venv management tool. If you do
+  not have uv installed refer to [uv install
+  instruction](https://docs.astral.sh/uv/getting-started/installation/).
 - [ffmpeg](https://www.ffmpeg.org) to process downloaded file (convert format /
   add metadata). On debian you can install it with `sudo apt install ffmpeg`.
 
@@ -22,14 +22,15 @@ Sync your downloaded music with your online platforms.
 ```sh
 git clone https://github.com/Mathieu-COSYNS/music-sync
 cd ./music-sync
-pipenv install
-# or pipenv install --dev
+uv venv
+. .venv/bin/activate
+uv sync
 ```
 
 ## Run
 
 ```sh
-pipenv run musicsync
+uv run cli.py
 ```
 
 The first time you run the program a config file will be generated. By default
@@ -41,5 +42,5 @@ preferences (`~/.config/music_sync/config.yml` by default).
 ## Test
 
 ```sh
-pipenv run test
+uv run -m unittest discover
 ```
