@@ -4,7 +4,9 @@ API_URL = "https://api-v2.soundcloud.com/"
 CLIENT_ID = "iZIs9mchVcX5lhVRyQGGAYlNPVldzAoX"
 
 
-def getFromSoundCloudAPI(path: str, params: dict = None, headers: dict = None):
+def getFromSoundCloudAPI(
+    path: str, params: dict | None = None, headers: dict | None = None
+):
     if headers is None:
         headers = {}
     if params is None:

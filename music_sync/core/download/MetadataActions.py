@@ -7,9 +7,9 @@ from yt_dlp import MetadataParserPP
 
 class MetadataActions:
     def __init__(self) -> None:
-        self._actions = []
+        self._actions: list[MetadataParserPP] = []
 
-    def add(self, action):
+    def add(self, action: MetadataParserPP):
         MetadataParserPP.validate_action(*action)
         self._actions.append(action)
 

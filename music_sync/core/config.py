@@ -28,7 +28,7 @@ def _get_config_path(*resource, config_file="config.yaml", writable=False):
     return os.path.join(xdg.BaseDirectory.xdg_config_home, resource, config_file)
 
 
-def get_config_path(resource="music_sync", **kwargs):
+def get_config_path(resource: str = "music_sync", **kwargs):
     return _get_config_path(resource, **kwargs)
 
 
