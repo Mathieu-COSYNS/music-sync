@@ -1,15 +1,22 @@
 import copy
-from typing import Any, Mapping
-from marshmallow import Schema, post_load, fields
+from collections.abc import Mapping
+from typing import Any
+
+from marshmallow import Schema, fields, post_load
 from marshmallow.fields import Field
-from marshmallow.utils import missing as missing_, resolve_field_instance, FieldInstanceResolutionError
+from marshmallow.utils import (
+    FieldInstanceResolutionError,
+    resolve_field_instance,
+)
+from marshmallow.utils import (
+    missing as missing_,
+)
 
 from music_sync.core.download import MetadataActions
 from music_sync.core.utils import get_absolute_path
 
 
 class FieldWrapper(fields.Field):
-
     def __init__(self, cls_or_instance: fields.Field | type, **kwargs) -> None:
         super().__init__(**kwargs)
         try:
@@ -33,19 +40,22 @@ class FieldWrapper(fields.Field):
 
 
 class ContextAware(FieldWrapper):
-
-    def __init__(self,
-                 cls_or_instance: Field | type,
-                 context_key: str | None = None,
-                 context_read_key: str | None = None,
-                 context_write_key: str | None = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        cls_or_instance: Field | type,
+        context_key: str | None = None,
+        context_read_key: str | None = None,
+        context_write_key: str | None = None,
+        **kwargs,
+    ) -> None:
         super().__init__(cls_or_instance, **kwargs)
         self.context_read_key = context_read_key or context_key
         self.context_write_key = context_write_key or context_key
 
     def get_value_from_context(self, default_key):
-        context_key = default_key if self.context_read_key is None else self.context_read_key
+        context_key = (
+            default_key if self.context_read_key is None else self.context_read_key
+        )
 
         if context_key not in self.context:
             if self.inner.required:
@@ -55,10 +65,18 @@ class ContextAware(FieldWrapper):
         return self.context[context_key]
 
     def set_value_in_context(self, default_key, value):
-        context_key = default_key if self.context_write_key is None else self.context_write_key
+        context_key = (
+            default_key if self.context_write_key is None else self.context_write_key
+        )
         self.context[context_key] = value
 
-    def deserialize(self, value: Any, attr: str | None = None, data: Mapping[str, Any] | None = None, **kwargs):
+    def deserialize(
+        self,
+        value: Any,
+        attr: str | None = None,
+        data: Mapping[str, Any] | None = None,
+        **kwargs,
+    ):
         if value == missing_:
             value = self.get_value_from_context(attr)
 
@@ -71,16 +89,19 @@ class ContextAware(FieldWrapper):
 
 
 class GetContext(fields.Field):
-
-    def __init__(self,
-                 context_key: str | None = None,
-                 context_read_key: str | None = None,
-                 **kwargs) -> None:
+    def __init__(
+        self,
+        context_key: str | None = None,
+        context_read_key: str | None = None,
+        **kwargs,
+    ) -> None:
         super().__init__(**kwargs)
         self.context_read_key = context_read_key or context_key
 
     def get_value_from_context(self, default_key):
-        context_key = default_key if self.context_read_key is None else self.context_read_key
+        context_key = (
+            default_key if self.context_read_key is None else self.context_read_key
+        )
 
         if context_key not in self.context:
             if self.required:
@@ -89,13 +110,18 @@ class GetContext(fields.Field):
                 return missing_
         return self.context[context_key]
 
-    def deserialize(self, value: Any, attr: str | None = None, data: Mapping[str, Any] | None = None, **kwargs):
+    def deserialize(
+        self,
+        value: Any,
+        attr: str | None = None,
+        data: Mapping[str, Any] | None = None,
+        **kwargs,
+    ):
         return self.get_value_from_context(attr)
 
 
 class PathField(fields.String):
-
-    def __init__(self, base_path='base_path', **kwargs):
+    def __init__(self, base_path="base_path", **kwargs):
         super().__init__(**kwargs)
         self.base_path = base_path
 
@@ -107,17 +133,24 @@ class PathField(fields.String):
 
 
 class MetadataActionsSchema(Schema):
-    interpret = fields.List(fields.String(), dump_default=['"SoundCloud Likes" (?s)(?P<album>.+)',
-                            '"Various Artists" (?s)(?P<album_artist>.+)',
-                                                           '"" (?P<description>)'])
-    replace = fields.List(fields.String(), dump_default=[
-        'artist,uploader approachingnirvana "Approaching Nirvana"'])
+    interpret = fields.List(
+        fields.String(),
+        dump_default=[
+            '"SoundCloud Likes" (?s)(?P<album>.+)',
+            '"Various Artists" (?s)(?P<album_artist>.+)',
+            '"" (?P<description>)',
+        ],
+    )
+    replace = fields.List(
+        fields.String(),
+        dump_default=['artist,uploader approachingnirvana "Approaching Nirvana"'],
+    )
 
     @post_load
     def to_MetadataAction(self, data, **kwargs):
         actions = MetadataActions()
-        if 'interpret' in data:
-            actions.parse(data['interpret'], 'interpret')
-        if 'replace' in data:
-            actions.parse(data['replace'], 'replace')
+        if "interpret" in data:
+            actions.parse(data["interpret"], "interpret")
+        if "replace" in data:
+            actions.parse(data["replace"], "replace")
         return actions

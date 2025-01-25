@@ -3,5 +3,5 @@ from .AppRegistry import AppRegistry
 
 __all__ = [
     "App",
-    "AppRegistry"
+    "AppRegistry",
 ]

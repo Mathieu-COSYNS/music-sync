@@ -15,11 +15,10 @@ def get_absolute_path(value, base_path=None):
 def safe_issubclass(*arg, **kwargs):
     try:
         return issubclass(*arg, **kwargs)
-    except:
+    except Exception:
         return False
 
 
-def is_valid_url(url, qualifying=('scheme', 'netloc')):
+def is_valid_url(url, qualifying=("scheme", "netloc")):
     tokens = urlparse(url)
-    return all([getattr(tokens, qualifying_attr)
-                for qualifying_attr in qualifying])
+    return all([getattr(tokens, qualifying_attr) for qualifying_attr in qualifying])

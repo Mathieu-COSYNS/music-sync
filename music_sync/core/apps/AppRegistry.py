@@ -1,5 +1,5 @@
-from collections.abc import Iterable
 import logging
+from collections.abc import Iterable
 
 from marshmallow import fields
 
@@ -7,14 +7,13 @@ from music_sync.core.apps.App import App
 from music_sync.core.utils import safe_issubclass
 
 
-class AppRegistry():
+class AppRegistry:
     _apps = []
 
     def __init__(self, global_config_schema_class) -> None:
         self._global_config_schema_class = global_config_schema_class
 
     def register(self, apps: App | Iterable[App]):
-
         if not isinstance(apps, Iterable):
             apps = [apps]
 
@@ -29,7 +28,10 @@ class AppRegistry():
         apps_configs = {}
         for app in self._apps:
             apps_configs[app.name] = fields.Nested(
-                app.ConfigSchema, required=True, dump_default=app.ConfigSchema().dump({}))
+                app.ConfigSchema,
+                required=True,
+                dump_default=app.ConfigSchema().dump({}),
+            )
         return self._global_config_schema_class.from_dict(apps_configs)
 
     def initialize(self, config):

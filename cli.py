@@ -1,20 +1,21 @@
 import argparse
 import itertools
 
-from music_sync import MusicSync, LOG_LEVELS
+from music_sync import LOG_LEVELS, MusicSync
 
 
 def main():
     parser = argparse.ArgumentParser(
-        prog='cli.py',
-        description='Sync your downloaded music with your online platforms')
+        prog="cli.py",
+        description="Sync your downloaded music with your online platforms",
+    )
 
     parser.add_argument(
-        '--log',
+        "--log",
         choices=list(itertools.chain(*LOG_LEVELS.items())),
-        help='log level',
-        default='INFO',
-        type=str.upper
+        help="log level",
+        default="INFO",
+        type=str.upper,
     )
 
     args = parser.parse_args()
