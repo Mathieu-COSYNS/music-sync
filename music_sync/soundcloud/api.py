@@ -1,7 +1,7 @@
 from requests import get
 
 API_URL = "https://api-v2.soundcloud.com/"
-CLIENT_ID = "iZIs9mchVcX5lhVRyQGGAYlNPVldzAoX"
+CLIENT_ID = "w0PqSX6xWqp8HdphsK7qqwuJo50NQpsM"
 
 
 def getFromSoundCloudAPI(
